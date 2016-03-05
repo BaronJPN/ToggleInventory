@@ -3,3 +3,4 @@ bukkit/
 bin/
 *.class
 *.jardesc
+/target
