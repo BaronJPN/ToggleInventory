@@ -1,3 +1,3 @@
-update-check: true
+update-check: false
 auto-update: false
 disable-mcstats: false
