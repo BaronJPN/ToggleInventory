@@ -15,16 +15,16 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import net.minecraft.server.v1_10_R1.NBTBase;
-import net.minecraft.server.v1_10_R1.NBTCompressedStreamTools;
-import net.minecraft.server.v1_10_R1.NBTTagCompound;
-import net.minecraft.server.v1_10_R1.NBTTagList;
+import net.minecraft.server.v1_11_R1.NBTBase;
+import net.minecraft.server.v1_11_R1.NBTCompressedStreamTools;
+import net.minecraft.server.v1_11_R1.NBTTagCompound;
+import net.minecraft.server.v1_11_R1.NBTTagList;
 
 @SuppressWarnings("unused")
 public class InventoryUtils
@@ -235,8 +235,8 @@ public class InventoryUtils
 				//System.out.println("slot="+slot+" ,inventory.getsize="+inventory.getSize());
 
 				if(slot >= 0 && slot < inventory.getSize()){
-					net.minecraft.server.v1_10_R1.ItemStack itemStack = net.minecraft.server.v1_10_R1.ItemStack
-							.createStack(tmpTagCompound);
+					net.minecraft.server.v1_11_R1.ItemStack itemStack = new net.minecraft.server.v1_11_R1.ItemStack(tmpTagCompound);
+//							.createStack(tmpTagCompound);
 
 					CraftItemStack craftItemStack = CraftItemStack.asCraftMirror(itemStack);
 					inventory.setItem(slot, craftItemStack);
