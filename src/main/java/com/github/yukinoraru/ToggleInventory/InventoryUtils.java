@@ -15,16 +15,16 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import net.minecraft.server.v1_12_R1.NBTBase;
-import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.NBTTagList;
+import net.minecraft.server.v1_13_R2.NBTBase;
+import net.minecraft.server.v1_13_R2.NBTCompressedStreamTools;
+import net.minecraft.server.v1_13_R2.NBTTagCompound;
+import net.minecraft.server.v1_13_R2.NBTTagList;
 
 @SuppressWarnings("unused")
 public class InventoryUtils
@@ -222,7 +222,7 @@ public class InventoryUtils
 			// get max slot number = max of inventory
 			int maxSlot = 0;
 			for (int i = 0; i < itemList.size(); i++) {
-				int tmp = itemList.get(i).getByte("Slot") & 0xFF;
+				int tmp = ((NBTTagCompound) itemList.get(i)).getByte("Slot") & 0xFF;
 				if(maxSlot < tmp){
 					maxSlot = tmp;
 				}
@@ -230,14 +230,15 @@ public class InventoryUtils
 			inventory = createInventory(null, maxSlot+1);
 
 			for (int i = 0; i < itemList.size(); i++) {
-				NBTTagCompound tmpTagCompound = itemList.get(i);
+				NBTTagCompound tmpTagCompound = (NBTTagCompound) itemList.get(i);
 				int slot = tmpTagCompound.getByte("Slot") & 0xFF;
 				//System.out.println("slot="+slot+" ,inventory.getsize="+inventory.getSize());
 
 				if(slot >= 0 && slot < inventory.getSize()){
-					net.minecraft.server.v1_12_R1.ItemStack itemStack = new net.minecraft.server.v1_12_R1.ItemStack(tmpTagCompound);
+					
+					net.minecraft.server.v1_13_R2.ItemStack itemStack = net.minecraft.server.v1_13_R2.ItemStack.a(tmpTagCompound);
 //							.createStack(tmpTagCompound);
-
+					
 					CraftItemStack craftItemStack = CraftItemStack.asCraftMirror(itemStack);
 					inventory.setItem(slot, craftItemStack);
 				}
