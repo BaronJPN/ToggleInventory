@@ -5,6 +5,8 @@ dev-url: http://dev.bukkit.org/server-mods/toggleinventory/
 author: yukinoraru
 description: toggle inventory command.
 commands:
+  tic:
+    description: toggle inventory output chest
   togglei:
     description: toggle inventory
     aliases: [ti]

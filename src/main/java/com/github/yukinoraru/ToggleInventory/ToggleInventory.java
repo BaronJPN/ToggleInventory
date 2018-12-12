@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ public class ToggleInventory extends JavaPlugin implements Listener {
 
     protected Logger log;
     protected InventoryManager inventoryManager;
+    protected OutputChest outputChest;
 
     public void onEnable(){
     	this.log = this.getLogger();
@@ -50,6 +52,7 @@ public class ToggleInventory extends JavaPlugin implements Listener {
     	}
 
     	this.inventoryManager = new InventoryManager(this);
+    	this.outputChest = new OutputChest(this);
 
     	// copy default special inventory file
     	File spInvFile = inventoryManager.getDefaultSpecialInventoryFile();
@@ -260,6 +263,25 @@ public class ToggleInventory extends JavaPlugin implements Listener {
 				e.printStackTrace();
 			}
         }
+
+        // output chest
+        boolean isOutputChest = cmd.getName().equalsIgnoreCase("tic");
+        if (isOutputChest) {
+        	player.sendMessage("start");
+        	int n = 1;
+        	if (args.length == 1 && args[0].length() > 0 ) {
+        		try {
+    	            n = Integer.parseInt(args[0]);
+    	        } catch (NumberFormatException e) {
+    	        }
+        		if (n <= 0) {
+        			n = 1;
+        		}
+        	}
+        	outputChest.output(player, player.getLocation(), n);
+        	return true;
+        }
+
         return true;
     }
 

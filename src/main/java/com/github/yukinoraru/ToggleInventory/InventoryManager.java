@@ -3,7 +3,9 @@ package com.github.yukinoraru.ToggleInventory;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -305,6 +307,28 @@ public class InventoryManager {
 		}
 
 		return;
+	}
+
+	public ItemStack[] getInventoryItemStacks(File file) throws Exception {
+        FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
+        int current = fileConfiguration.getInt("current", 1);
+
+        Stream<ItemStack> itemStackStream = Stream.empty();
+
+        for (int i = 1; i <= 4; ++i) {
+        	if (i == current) continue;
+        	// inventory
+            String serializedInventoryContents =
+    			fileConfiguration.getString(getSectionPathForUserContents(i));
+            if (serializedInventoryContents != null) {
+            	Inventory inventory = InventoryUtils.stringToInventory(serializedInventoryContents);
+                ItemStack[] contens = inventory.getContents();
+                System.out.println("inventory size:" + contens.length);
+                itemStackStream = Stream.concat(itemStackStream, Arrays.stream(contens));
+            }
+        }
+
+        return itemStackStream.filter(item -> item != null).toArray(ItemStack[]::new);
 	}
 
 	public void toggleInventory(CommandSender player, boolean rotateDirection) throws Exception{
